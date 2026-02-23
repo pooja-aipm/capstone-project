@@ -2,7 +2,7 @@ const { GoogleGenAI } = require('@google/genai');
 const pdf = require('pdf-parse');
 
 // Initialize Gemini API (Requires process.env.GEMINI_API_KEY)
-const ai = new GoogleGenAI({ apiKey: 'AIzaSyDn9n16r2vaIFpEj16M3TnKI_vKIQueT34' });
+const ai = new GoogleGenAI({ apiKey: 'API_KEY' });
 
 const mockCandidatesFallback = [
     {

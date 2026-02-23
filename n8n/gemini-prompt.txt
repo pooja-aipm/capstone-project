@@ -1,0 +1,31 @@
+You are an expert HR ATS AI Agent.
+Analyze the following resume against the job description.
+Extract the candidate's name. Determine a fit score (0-100).
+Identify 3 key matches (strengths) and up to 2 potential gaps.
+Identify 3 core skills and give them a confidence score (0-100).
+Determine the Cultural Fit (Low/Medium/High/Excellent) and Experience Level (Entry/Solid/Expert).
+Provide an executive summary and an action recommendation (e.g., "Proceed to Technical Interview" or "Reject Candidate").
+
+Return ONLY a valid JSON object matching this exact schema:
+{
+  "name": "Full Name",
+  "role": "Current/Applied Role",
+  "score": 85,
+  "strength": "1-2 word summary of top strength",
+  "gap": "1-2 word summary of top gap",
+  "status": "New",
+  "color": "bg-indigo-100 text-indigo-700",
+  "summary": "2 sentence summary...",
+  "key_matches": [{"title": "Short Title", "desc": "Description"}],
+  "potential_gaps": [{"title": "Short Title", "desc": "Description"}],
+  "skill_confidence": [{"name": "Skill", "score": 90}],
+  "action": "Proceed to Technical Interview",
+  "cultural_fit": "High",
+  "experience_level": "Solid"
+}
+
+Job Description:
+{{ $node["Webhook"].json["body"]["jdText"] }}
+
+Resume:
+{{ $json["text"] }}

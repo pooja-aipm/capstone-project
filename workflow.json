@@ -1,0 +1,97 @@
+{
+    "name": "Recruit-AI Resume Screener",
+    "nodes": [
+        {
+            "parameters": {
+                "httpMethod": "POST",
+                "path": "analyze-resume",
+                "options": {}
+            },
+            "name": "Webhook",
+            "type": "n8n-nodes-base.webhook",
+            "typeVersion": 1,
+            "position": [
+                250,
+                300
+            ]
+        },
+        {
+            "parameters": {
+                "model": "gemini-2.5-flash",
+                "prompt": "={{ $json.prompt }}",
+                "options": {
+                    "systemMessage": "You are an expert technical recruiter AI. Output strictly valid JSON without markdown wrapping."
+                }
+            },
+            "name": "Google Gemini",
+            "type": "n8n-nodes-base.googleGemini",
+            "typeVersion": 1,
+            "position": [
+                450,
+                300
+            ]
+        },
+        {
+            "parameters": {
+                "jsCode": "// See agent-logic.js for this code implementation logic\nreturn items;"
+            },
+            "name": "Format JSON Output",
+            "type": "n8n-nodes-base.code",
+            "typeVersion": 1,
+            "position": [
+                650,
+                300
+            ]
+        },
+        {
+            "parameters": {
+                "respondWith": "json",
+                "responseBody": "={{ $json }}",
+                "options": {}
+            },
+            "name": "Webhook Response",
+            "type": "n8n-nodes-base.webhookResponse",
+            "typeVersion": 1,
+            "position": [
+                850,
+                300
+            ]
+        }
+    ],
+    "connections": {
+        "Webhook": {
+            "main": [
+                [
+                    {
+                        "node": "Google Gemini",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Google Gemini": {
+            "main": [
+                [
+                    {
+                        "node": "Format JSON Output",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Format JSON Output": {
+            "main": [
+                [
+                    {
+                        "node": "Webhook Response",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        }
+    },
+    "settings": {}
+}
